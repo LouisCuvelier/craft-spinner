@@ -25,6 +25,7 @@ use craft\events\RegisterUrlRulesEvent;
 use craft\events\FieldEvent;
 
 use yii\base\Event;
+use yii\helpers\VarDumper;
 
 /**
  * Craft plugins are very much like little applications in and of themselves. We’ve made
@@ -63,7 +64,7 @@ class Spinner extends Plugin
      *
      * @var string
      */
-    public $schemaVersion = '0.0.0';
+    public $schemaVersion = '1.0.0';
 
     /**
      * Set to `true` if the plugin should have a settings view in the control panel.
@@ -128,7 +129,7 @@ class Spinner extends Plugin
             FieldEvent $event
         ) {
             if ($event->isNew) {
-            self::$plugin->spinnerService->createTableLine($event->field);
+                self::$plugin->spinnerService->createTableLine($event->field);
             } else {
                 self::$plugin->spinnerService->updateTableLine($event->field);
             }
@@ -147,7 +148,6 @@ class Spinner extends Plugin
             Plugins::EVENT_AFTER_INSTALL_PLUGIN,
             function (PluginEvent $event) {
                 if ($event->plugin === $this) {
-                    // We were just installed
                 }
             }
         );

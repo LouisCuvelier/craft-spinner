@@ -10,6 +10,8 @@
 
 namespace louiscuvelier\spinner\migrations;
 
+use craft\db\Query;
+use louiscuvelier\spinner\fields\SpinText as SpinTextField;
 use louiscuvelier\spinner\Spinner;
 
 use Craft;
@@ -98,21 +100,20 @@ class Install extends Migration
         $tablesCreated = false;
 
         // spinner_spintexts table
-        $tableSchema = Craft::$app->db->schema->getTableSchema('{{%spinner_spintexts}}');
+        $tableSchema = Craft::$app->db->schema->getTableSchema(
+            '{{%spinner_spintexts}}'
+        );
         if ($tableSchema === null) {
             $tablesCreated = true;
-            $this->createTable(
-                '{{%spinner_spintexts}}',
-                [
-                    'id' => $this->primaryKey(),
-                    'dateCreated' => $this->dateTime()->notNull(),
-                    'dateUpdated' => $this->dateTime()->notNull(),
-                    'uid' => $this->uid(),
-                    // Custom columns in the table
-                    'fieldId' => $this->integer()->notNull(),
-                    'content' => $this->text()->notNull(),
-                ]
-            );
+            $this->createTable('{{%spinner_spintexts}}', [
+                'id' => $this->primaryKey(),
+                'dateCreated' => $this->dateTime()->notNull(),
+                'dateUpdated' => $this->dateTime()->notNull(),
+                'uid' => $this->uid(),
+                // Custom columns in the table
+                'fieldId' => $this->integer()->notNull(),
+                'content' => $this->text()->notNull()
+            ]);
         }
 
         return $tablesCreated;
@@ -126,23 +127,23 @@ class Install extends Migration
     protected function createIndexes()
     {
         // spinner_spintexts table
-//        $this->createIndex(
-//            $this->db->getIndexName(
-//                '{{%spinner_spintexts}}',
-//                'content',
-//                true
-//            ),
-//            '{{%spinner_spintexts}}',
-//            'content',
-//            true
-//        );
+        //        $this->createIndex(
+        //            $this->db->getIndexName(
+        //                '{{%spinner_spintexts}}',
+        //                'content',
+        //                true
+        //            ),
+        //            '{{%spinner_spintexts}}',
+        //            'content',
+        //            true
+        //        );
         // Additional commands depending on the db driver
-//        switch ($this->driver) {
-//            case DbConfig::DRIVER_MYSQL:
-//                break;
-//            case DbConfig::DRIVER_PGSQL:
-//                break;
-//        }
+        //        switch ($this->driver) {
+        //            case DbConfig::DRIVER_MYSQL:
+        //                break;
+        //            case DbConfig::DRIVER_PGSQL:
+        //                break;
+        //        }
     }
 
     /**
@@ -169,8 +170,10 @@ class Install extends Migration
      *
      * @return void
      */
-    protected function insertDefaultData()
+    protected function insertDefaultData(): void
     {
+        // Create database lines if Spin Text fields already exists from a previous installation
+        Spinner::$plugin->spinnerService->createDefaultLines();
     }
 
     /**
@@ -178,7 +181,7 @@ class Install extends Migration
      *
      * @return void
      */
-    protected function removeTables()
+    protected function removeTables(): void
     {
         // spinner_spintexts table
         $this->dropTableIfExists('{{%spinner_spintexts}}');
