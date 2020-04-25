@@ -1,0 +1,25 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Spinner plugin for Craft CMS 3.x
+ *
+ * SpinText Field Input
+ *
+ * @author    Louis Cuvelier
+ * @copyright Copyright (c) 2020 Louis Cuvelier
+ * @link      https://www.louiscuvelier.com
+ * @package   Spinner
+ * @since     0.0.0
+ */
+#}
+
+{% import "_includes/forms" as forms %}
+
+<div class="btn" id="generate-spin-text-btn">Generate text</div>
+
+{{ forms.textareaField({
+        id: name,
+        name: name,
+        value: value,
+        rows: 10})
+}}

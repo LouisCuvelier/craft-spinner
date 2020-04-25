@@ -1,0 +1,41 @@
+{
+    "name": "louiscuvelier/spinner",
+    "description": "Spinner lets you do fast, easy and bulk content spinning.",
+    "type": "craft-plugin",
+    "version": "1.0.0",
+    "keywords": [
+        "craft",
+        "cms",
+        "craftcms",
+        "craft-plugin",
+        "spinner"
+    ],
+    "support": {
+        "docs": "https://github.com/LouisCuvelier/spinner/blob/master/README.md",
+        "issues": "https://github.com/LouisCuvelier/spinner/issues"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Louis Cuvelier",
+            "homepage": "https://www.louiscuvelier.com"
+        }
+    ],
+    "require": {
+        "craftcms/cms": "^3.0.0-RC1"
+    },
+    "autoload": {
+        "psr-4": {
+          "louiscuvelier\\spinner\\": "src/"
+        }
+    },
+    "extra": {
+        "name": "Spinner",
+        "handle": "spinner",
+        "developer": "Louis Cuvelier",
+        "developerUrl": "https://www.louiscuvelier.com",
+        "documentationUrl": "https://github.com/LouisCuvelier/spinner/blob/master/README.md",
+        "changelogUrl": "https://raw.githubusercontent.com/LouisCuvelier/spinner/master/CHANGELOG.md",
+        "class": "louiscuvelier\\spinner\\Spinner"
+    }
+}

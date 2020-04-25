@@ -1,0 +1,91 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#  
+/**
+ * Spinner plugin for Craft CMS 3.x
+ *
+ * Spinner index.twig
+ *
+ * @author    Louis Cuvelier
+ * @copyright Copyright (c) 2020 Louis Cuvelier
+ * @link      https://www.louiscuvelier.com
+ * @package   Spinner
+ * @since     0.0.0
+ */
+#}
+
+{% extends '_layouts/cp' %}
+{% import '_includes/forms' as forms %}
+
+{% do view.registerAssetBundle(
+  'louiscuvelier\\spinner\\assetbundles\\indexcpsection\\IndexCPSectionAsset'
+) %}
+
+{% set docsUrl = 'https://' %}
+
+{% set title = 'Spinner' %}
+
+{% set pluginCpUrl = url('spinner') %}
+
+{% set iconUrl = view.getAssetManager().getPublishedUrl(
+  '@louiscuvelier/spinner/assetbundles/indexcpsection/dist',
+  true
+)
+  ~ '/img/Index-icon.svg'
+%}
+
+{% set extraPageHeaderHtml %}
+  <div class="buttons">
+    <a href="{{ pluginCpUrl }}" class="btn submit add icon">
+      {{ 'Click Me!'|t('contentspinning') }}
+    </a>
+  </div>
+{% endset %}
+
+{% set content %}
+  {# TODO : Add alert before unload #}
+  <div>
+    <h2>
+      Spin settings
+    </h2>
+    {%- if spinTexts -%}
+      {%- for spinText in spinTexts -%}
+        {%- if not loop.first -%}
+          <hr />
+        {%- endif -%}
+        <form method="post" accept-charset="UTF-8">
+          {{ csrfInput() }}
+          {{ hiddenInput("spinId", spinText.id) }}
+          {{ hiddenInput("fieldName", spinText.fieldName) }}
+          {{ hiddenInput("fieldHandle", spinText.fieldHandle) }}
+          {{ hiddenInput("fieldId", spinText.fieldId) }}
+          {{ actionInput('spinner/cp/save-spin') }}
+
+          {{
+            forms.textareaField({
+              label: spinText.fieldName,
+              instructions: 'Enter the spin text for which you want to generate clean text.',
+              id: 'spinText',
+              name: 'spinText',
+              class: 'spin-text',
+              rows: 10,
+              value: craft.app.request.getBodyParam('spinText') ?? spinText.content
+            })
+          }}
+
+          <div class="buttons">
+            <input type="submit"
+              name="saveAndGenerate"
+              class="btn submit"
+              value="Save and generate texts" />
+            <input type="submit" name="save" class="btn" value="Save" />
+          </div>
+        </form>
+      {%- endfor -%}
+    {%- else -%}
+      <p>
+        Any spin text field have been created yet. <a href="{{ siteUrl('admin/settings/fields/new') }}" class="go">Create
+          one</a>
+      </p>
+    {%- endif -%}
+  </div>
+{% endset %}

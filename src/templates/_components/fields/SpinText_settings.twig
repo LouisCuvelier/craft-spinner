@@ -1,0 +1,18 @@
+{# @var craft \craft\web\twig\variables\CraftVariable #}
+{#
+/**
+ * Spinner plugin for Craft CMS
+ *
+ * SpinText Field Settings
+ *
+ * @author    Louis Cuvelier
+ * @copyright Copyright (c) 2020 Louis Cuvelier
+ * @link      https://www.louiscuvelier.com
+ * @package   Spinner
+ * @since     0.0.0
+ */
+#}
+
+{% do view.registerAssetBundle("louiscuvelier\\spinner\\assetbundles\\spintextfield\\SpinTextFieldAsset") %}
+
+<p>You can set the spin text in the <a href="{{ siteUrl("admin/spinner") }}" class="go">control panel</a>.</p>
