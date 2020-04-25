@@ -11,12 +11,11 @@
 namespace louiscuvelier\spinner\services;
 
 use craft\base\Field;
-use craft\db\Connection;
+use craft\base\FieldInterface;
 use craft\db\Query;
-use craft\Db\Command;
 use craft\helpers\DateTimeHelper;
-use louiscuvelier\spinner\fields\SpinText;
-use louiscuvelier\spinner\records\SpinTexts as SpinerTextsRecord;
+use louiscuvelier\spinner\fields\SpinText as SpinTextField;
+use louiscuvelier\spinner\records\SpinTexts as SpinnerTextsRecord;
 use louiscuvelier\spinner\Spinner;
 
 use Craft;
@@ -38,11 +37,6 @@ use yii\db\Exception;
  */
 class SpinnerService extends Component
 {
-    // Constants
-    // =========================================================================
-
-    const IGNORE_DB_ATTRIBUTES = ['id', 'dateCreated', 'dateUpdated', 'uid'];
-
     // Public Methods
     // =========================================================================
 
@@ -57,15 +51,15 @@ class SpinnerService extends Component
      * @param $field
      * @return mixed
      */
-    public function createTableLine(Field $field): bool
+    public function createTableLine(FieldInterface $field): bool
     {
         if (
-            $field instanceof SpinText &&
-            SpinerTextsRecord::findOne([
+            $field instanceof SpinTextField &&
+            SpinnerTextsRecord::findOne([
                 'fieldId' => $field->id
             ]) === null
         ) {
-            $record = new SpinerTextsRecord();
+            $record = new SpinnerTextsRecord();
             $record->fieldId = $field->id;
             $record->content = '';
             $record->save();
@@ -76,7 +70,24 @@ class SpinnerService extends Component
         return false;
     }
 
-    public function updateTableLine(Field $field): bool
+    public function createDefaultLines(): void
+    {
+        $fields = (new Query())
+            ->from('{{%fields}}')
+            ->where(['type' => SpinTextField::class])
+            ->all();
+
+        if ($fields) {
+            foreach ($fields as $field) {
+                $record = new SpinnerTextsRecord();
+                $record->fieldId = Craft::$app->fields->createField($field)->id;
+                $record->content = '';
+                $record->save();
+            }
+        }
+    }
+
+    public function updateTableLine(FieldInterface $field): bool
     {
         $record = SpinerTextsRecord::findOne([
             'fieldId' => $field->id
@@ -102,9 +113,9 @@ class SpinnerService extends Component
         return false;
     }
 
-    public function deleteTableLine($field): bool
+    public function deleteTableLine(Field $field): bool
     {
-        $record = SpinerTextsRecord::findOne([
+        $record = SpinnerTextsRecord::findOne([
             'fieldId' => $field->id
         ]);
         if ($record !== null) {
@@ -136,9 +147,7 @@ class SpinnerService extends Component
     public function getSpinText(int $fieldId)
     {
         return (new Query())
-            ->select([
-                'content',
-            ])
+            ->select(['content'])
             ->from('{{%spinner_spintexts}} spinner')
             ->where(['fieldId' => $fieldId])
             ->one();
@@ -146,7 +155,7 @@ class SpinnerService extends Component
 
     public function saveSpinText(int $spinId, string $spinText)
     {
-        $record = SpinerTextsRecord::findOne([
+        $record = SpinnerTextsRecord::findOne([
             'id' => $spinId
         ]);
 
