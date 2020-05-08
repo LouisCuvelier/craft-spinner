@@ -89,7 +89,7 @@ class SpinnerService extends Component
 
     public function updateTableLine(FieldInterface $field): bool
     {
-        $record = SpinerTextsRecord::findOne([
+        $record = SpinnerTextsRecord::findOne([
             'fieldId' => $field->id
         ]);
         if ($field instanceof SpinText) {
