@@ -2,8 +2,6 @@
 /**
  * Spinner plugin for Craft CMS 3.x
  *
- * fez
- *
  * @link      https://www.louiscuvelier.com
  * @copyright Copyright (c) 2020 Louis Cuvelier
  */
