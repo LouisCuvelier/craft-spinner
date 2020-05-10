@@ -11,12 +11,11 @@
 namespace louiscuvelier\spinner\jobs;
 
 use Craft;
+use craft\db\Query;
 use craft\db\QueryAbortedException;
 use craft\elements\Entry;
-use craft\helpers\App;
+use craft\helpers\Db;
 use craft\queue\BaseJob;
-use craft\records\EntryType;
-use craft\records\FieldLayoutField;
 use louiscuvelier\spinner\helpers\Spintax;
 use yii\base\Exception;
 
@@ -49,26 +48,22 @@ class RegenerateEntries extends BaseJob
     // =========================================================================
     public function execute($queue)
     {
-        $layoutQuery = FieldLayoutField::find()->where(['=', 'fieldId', $this->fieldId]);
-        $layoutIds = [];
-        foreach ($layoutQuery->each() as $layout) {
-            $layoutIds[] = $layout['layoutId'];
-        }
+        $entryTypes = (new Query())
+            ->select(['entrytypes.handle'])
+            ->from(['{{%entrytypes}} entrytypes'])
+            ->innerJoin('{{%fieldlayoutfields}} fieldlayoutfields', '[[entrytypes.fieldLayoutId]] = [[fieldlayoutfields.layoutId]]')
+            ->where(Db::parseParam('fieldlayoutfields.fieldId', $this->fieldId))
+            ->column();
 
-        $entryTypeQuery = EntryType::find()->where(['in', 'fieldLayoutId', $layoutIds]);
-        $entryTypeIds = [];
-        foreach ($entryTypeQuery->each() as $entryType) {
-            $entryTypeIds[] = $entryType['id'];
-        }
-        $entryQuery = Entry::find()->where(['in', 'elements.fieldLayoutId', $entryTypeIds]);
+        $entriesQuery = Entry::find()->type($entryTypes);
 
-        $totalElements = $entryQuery->count();
+        $totalElements = $entriesQuery->count();
         $currentElement = 0;
 
         $elements = Craft::$app->getElements();
 
         try {
-            foreach ($entryQuery->each() as $entry) {
+            foreach ($entriesQuery->each() as $entry) {
                 $this->setProgress($queue, $currentElement++ / $totalElements);
 
                 $spintax = new Spintax();
