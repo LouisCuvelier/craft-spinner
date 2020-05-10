@@ -10,13 +10,10 @@
 
 namespace louiscuvelier\spinner\controllers;
 
-use craft\db\Query;
-use louiscuvelier\spinner\fields\SpinText as SpinTextField;
 use louiscuvelier\spinner\jobs\RegenerateEntries;
 
 use Craft;
 use craft\web\Controller;
-use louiscuvelier\spinner\records\SpinTexts as SpinnerTextsRecord;
 use louiscuvelier\spinner\Spinner;
 
 /**
