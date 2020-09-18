@@ -30,9 +30,11 @@
     init: function(id) {
       var _this = this;
 
+      console.log(_this);
+
       $(function() {
         /* -- _this.options gives us access to the $jsonVars that our FieldType passed down to us */
-        var btn = $("#" + _this.options.prefix + "generate-spin-text-btn");
+        var btn = $("#fields-generate-spin-text-btn");
 
         btn.click(function() {
           var request = $.ajax({
@@ -46,6 +48,7 @@
           });
 
           request.done(function(msg) {
+
 
             var textarea = $("#" + _this.options.namespace);
             textarea.val(msg);
