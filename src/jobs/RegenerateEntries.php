@@ -13,6 +13,7 @@ namespace louiscuvelier\spinner\jobs;
 use Craft;
 use craft\db\Query;
 use craft\db\QueryAbortedException;
+use craft\db\Table;
 use craft\elements\Entry;
 use craft\helpers\Db;
 use craft\queue\BaseJob;
@@ -64,13 +65,14 @@ class RegenerateEntries extends BaseJob
 
         try {
             foreach ($entriesQuery->each() as $entry) {
+                $entry = Entry::find()->id($entry->id)->section($entry->section->handle)->one();
                 $this->setProgress($queue, $currentElement++ / $totalElements);
 
                 $spintax = new Spintax();
                 $newContent = $spintax->process($this->spinText);
                 $entry->setFieldValues([$this->fieldHandle => $newContent]);
 
-                if (!$elements->saveElement($entry)) {
+                if (!$elements->saveElement($entry, true)) {
                     throw new Exception(
                         'Couldn’t save element ' .
                         $entry->id .
