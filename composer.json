@@ -2,7 +2,7 @@
     "name": "louiscuvelier/spinner",
     "description": "Spinner lets you do fast, easy and bulk content spinning.",
     "type": "craft-plugin",
-    "version": "2.0.5",
+    "version": "2.0.6",
     "keywords": [
         "craft",
         "cms",
@@ -45,5 +45,10 @@
         "platform": {
             "php": "8.0.2"
         }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require-dev": {
+        "craftcms/rector": "dev-main"
     }
 }

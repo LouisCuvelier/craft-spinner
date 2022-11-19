@@ -71,7 +71,7 @@ class SpinText extends Field
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         $rules = parent::rules();
         $rules = array_merge($rules, [
@@ -110,7 +110,7 @@ class SpinText extends Field
      *
      * @return mixed The prepared field value
      */
-    public function normalizeValue($value, ElementInterface $element = null)
+    public function normalizeValue(mixed $value, ?\craft\base\ElementInterface $element = null): mixed
     {
         return $value;
     }
@@ -125,7 +125,7 @@ class SpinText extends Field
      * @param ElementInterface|null $element The element the field is associated with, if there is one
      * @return mixed The serialized field value
      */
-    public function serializeValue($value, ElementInterface $element = null)
+    public function serializeValue(mixed $value, ?\craft\base\ElementInterface $element = null): mixed
     {
         return parent::serializeValue($value, $element);
     }
@@ -222,7 +222,7 @@ class SpinText extends Field
      *
      * @return string|null
      */
-    public function getSettingsHtml()
+    public function getSettingsHtml(): ?string
     {
         // Render the settings template
         return Craft::$app->getView()->renderTemplate(
@@ -330,7 +330,7 @@ class SpinText extends Field
      *
      * @return string The input HTML.
      */
-    public function getInputHtml($value, ElementInterface $element = null): string
+    public function getInputHtml(mixed $value, ?\craft\base\ElementInterface $element = null): string
     {
         // Register our asset bundle
         Craft::$app->getView()->registerAssetBundle(SpinTextFieldAsset::class);
