@@ -47,7 +47,7 @@ class RegenerateEntries extends BaseJob
 
     // Public Methods
     // =========================================================================
-    public function execute($queue)
+    public function execute($queue): void
     {
         $entryTypes = (new Query())
             ->select(['entrytypes.handle'])
