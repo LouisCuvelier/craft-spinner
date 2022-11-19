@@ -1,4 +1,4 @@
-# Spinner plugin for Craft CMS 3.x
+# Spinner plugin for Craft CMS 4.x
 Spinner lets you do fast, easy and bulk content spinning.
 
 ## ⚠️ Disclaimer
