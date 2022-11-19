@@ -35,7 +35,6 @@
         "developer": "Louis Cuvelier",
         "developerUrl": "https://www.louiscuvelier.com",
         "documentationUrl": "https://github.com/LouisCuvelier/spinner/blob/master/README.md",
-        "changelogUrl": "https://raw.githubusercontent.com/LouisCuvelier/spinner/master/CHANGELOG.md",
         "class": "louiscuvelier\\spinner\\Spinner"
     },
     "config": {
