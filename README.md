@@ -7,7 +7,7 @@ Content spinning is a pratice that **is not recommended** in the SEO world. Use 
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-beta.23 or later.
+This plugin requires Craft CMS 4.0.0 or later.
 
 ## Why Spinner is not on the Craft Plugin Store ?
 This is my first Craft plugin and my first real PHP project. I'm more a front dev so the code is a little bit shitty but it works for my use case.
